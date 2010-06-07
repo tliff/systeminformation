@@ -29,7 +29,8 @@ Gem::Specification.new do |s|
      "lib/systeminformation/linux/memory.rb",
      "lib/systeminformation/linux/net.rb",
      "lib/systeminformation/os.rb",
-     "lib/systeminformation/unix/users.rb"
+     "lib/systeminformation/unix/users.rb",
+     "systeminformation.gemspec"
   ]
   s.homepage = %q{http://github.com/tliff/systeminformation}
   s.rdoc_options = ["--charset=UTF-8"]
