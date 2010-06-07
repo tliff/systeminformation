@@ -27,6 +27,14 @@ module SystemInformation
       end
     end
 
+    def self.unix?
+      [:linux, :bsd, :darwin, :solaris].member?(os)
+    end
+    
+    def self.linux?
+      os == :linux
+    end
+    
     def self.java?
       !(/java/.match(RUBY_PLATFORM).nil?)
     end

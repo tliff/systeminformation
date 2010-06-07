@@ -1,4 +1,3 @@
-require 'pp'
 module SystemInformation
   module Linux
     module CPU
@@ -6,7 +5,7 @@ module SystemInformation
         @prev_data = read_data
       end
       
-      def get_data
+      def utilization
         new_data = read_data
         returnhash = {}
         new_data.keys.each do |key|
