@@ -8,10 +8,8 @@ module SystemInformation
   module OS
     def self.os
       return @os if @os
-      os_name = RUBY_PLATFORM
-      os_name = System.getProperty('os.name').downcase if jruby?
-      puts @os_name
-      @os = case os_name
+      name = RUBY_PLATFORM
+      @os = case name
       when /linux/
         :linux
       when /solaris/
@@ -35,12 +33,5 @@ module SystemInformation
       os == :linux
     end
     
-    def self.java?
-      !(/java/.match(RUBY_PLATFORM).nil?)
-    end
-
-    def self.jruby?
-      java? && /jruby/.match(RUBY_ENGINE)
-    end  
   end
 end

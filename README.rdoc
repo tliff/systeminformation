@@ -1,6 +1,10 @@
-= systeminformation
+= SystemInformation
 
-Description goes here.
+This gem provides information on the system it is running on. 
+
+
+== Usage
+See SystemInformation.
 
 == Note on Patches/Pull Requests
  
