@@ -1,0 +1,478 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: SystemInformation [systeminformation 0.1.0
+]</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }<\/style>" )
+
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">SystemInformation</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+
+
+                <a href="../files/lib/systeminformation/linux/cpu_rb.html">
+
+                lib/systeminformation/linux/cpu.rb
+
+                </a>
+
+
+        <br />
+
+
+                <a href="../files/lib/systeminformation/linux/load_rb.html">
+
+                lib/systeminformation/linux/load.rb
+
+                </a>
+
+
+        <br />
+
+
+                <a href="../files/lib/systeminformation/linux/memory_rb.html">
+
+                lib/systeminformation/linux/memory.rb
+
+                </a>
+
+
+        <br />
+
+
+                <a href="../files/lib/systeminformation/linux/net_rb.html">
+
+                lib/systeminformation/linux/net.rb
+
+                </a>
+
+
+        <br />
+
+
+                <a href="../files/lib/systeminformation/os_rb.html">
+
+                lib/systeminformation/os.rb
+
+                </a>
+
+
+        <br />
+
+
+                <a href="../files/lib/systeminformation/unix/users_rb.html">
+
+                lib/systeminformation/unix/users.rb
+
+                </a>
+
+
+        <br />
+
+
+                <a href="../files/lib/systeminformation_rb.html">
+
+                lib/systeminformation.rb
+
+                </a>
+
+
+        <br />
+
+            </td>
+        </tr>
+
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+  <div id="contextContent">
+
+   </div>
+
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+
+        <a href="#M000002">cpu</a>&nbsp;&nbsp;
+
+        <a href="#M000003">load</a>&nbsp;&nbsp;
+
+        <a href="#M000005">memory</a>&nbsp;&nbsp;
+
+        <a href="#M000004">net</a>&nbsp;&nbsp;
+
+        <a href="#M000001">os</a>&nbsp;&nbsp;
+
+        <a href="#M000006">users</a>&nbsp;&nbsp;
+
+      </div>
+    </div>
+
+  </div>
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="SystemInformation/Linux.html" class="link">SystemInformation::Linux</a><br />
+Module <a href="SystemInformation/OS.html" class="link">SystemInformation::OS</a><br />
+
+    </div>
+
+
+
+
+    <!-- if method_list -->
+
+    <div id="methods">
+
+      <h3 class="section-bar">Public Class methods</h3>
+
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+
+          <a href="#M000002" class="method-signature">
+
+          <span class="method-name">cpu</span><span class="method-args">()</span>
+
+          </a>
+
+        </div>
+
+        <div class="method-description">
+
+          <p>
+Returns a hash of
+</p>
+<pre>
+ {
+   &quot;cpuid&quot; =&gt; {
+     :idle =&gt; 1.0,
+     :user =&gt; 0.0,
+     ...
+   },
+   ...
+ }
+</pre>
+<p>
+The numerical values for each cpu sum up to 1.
+</p>
+<p>
+<em>Note:</em> Since cpu utilisation is only defined for a time interval,
+the first call to this methods does not return meaningful data. It should
+be discarded and after a short time reexecuted. Subsequent calls will use
+the previous call as reference.
+</p>
+
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000002-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000002-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/systeminformation.rb, line 26</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">cpu</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">OS</span><span class="ruby-operator">::</span><span class="ruby-identifier">linux?</span>
+      <span class="ruby-ivar">@@cpu</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Linux</span><span class="ruby-operator">::</span><span class="ruby-constant">CPU</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-ivar">@@cpu</span>.<span class="ruby-identifier">utilization</span>
+    <span class="ruby-keyword kw">end</span>    
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+
+          <a href="#M000003" class="method-signature">
+
+          <span class="method-name">load</span><span class="method-args">()</span>
+
+          </a>
+
+        </div>
+
+        <div class="method-description">
+
+          <p>
+Returns a hash of
+</p>
+<pre>
+ {
+   :load_1 =&gt;0.0,
+   :load_5 =&gt;0.0,
+   :load_15 =&gt;0.0,
+   :procs_running =&gt;0.0,
+   :procs_total =&gt;0.0
+ }
+</pre>
+
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000003-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/systeminformation.rb, line 43</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">load</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">OS</span><span class="ruby-operator">::</span><span class="ruby-identifier">linux?</span>
+      <span class="ruby-constant">Linux</span><span class="ruby-operator">::</span><span class="ruby-constant">Load</span>.<span class="ruby-identifier">load</span>
+    <span class="ruby-keyword kw">end</span>    
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+
+          <a href="#M000005" class="method-signature">
+
+          <span class="method-name">memory</span><span class="method-args">()</span>
+
+          </a>
+
+        </div>
+
+        <div class="method-description">
+
+          <p>
+Returns a hash of
+</p>
+<pre>
+ items = {
+   :free=&gt;23340,
+   :cached=&gt;106052,
+   :buffers=&gt;10864,
+   :total=&gt;505492,
+   :swaptotal=&gt;916472,
+   :swapfree=&gt;782652,
+   :used=&gt;365236,
+   :swapused=&gt;133820
+ }
+</pre>
+<p>
+The unit is kilobyte blocks.
+</p>
+
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000005-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/systeminformation.rb, line 85</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">memory</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">OS</span><span class="ruby-operator">::</span><span class="ruby-identifier">linux?</span>
+      <span class="ruby-constant">Linux</span><span class="ruby-operator">::</span><span class="ruby-constant">Memory</span>.<span class="ruby-identifier">usage</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+
+          <a href="#M000004" class="method-signature">
+
+          <span class="method-name">net</span><span class="method-args">()</span>
+
+          </a>
+
+        </div>
+
+        <div class="method-description">
+
+          <p>
+Returns a hash of
+</p>
+<pre>
+ {
+   &quot;eth0&quot; =&gt; {
+     :rbytes =&gt; 0.0,
+     :rpackets=&gt;0.0,
+     :sbytes=&gt;0.0,
+     :spackets=&gt;0.0
+   },
+  ...
+ }
+</pre>
+<p>
+values are bytes/second or packets/second respectively
+</p>
+<p>
+<em>Note:</em> Since network throughput is only defined for a time
+interval, the first call to this methods does not return meaningful data.
+It should be discarded and after a short time reexecuted. Subsequent calls
+will use the previous call as reference.
+</p>
+
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000004-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/systeminformation.rb, line 66</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">net</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">OS</span><span class="ruby-operator">::</span><span class="ruby-identifier">linux?</span>
+      <span class="ruby-ivar">@@net</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Linux</span><span class="ruby-operator">::</span><span class="ruby-constant">Net</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-ivar">@@net</span>.<span class="ruby-identifier">throughput</span>
+    <span class="ruby-keyword kw">end</span>    
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+
+          <a href="#M000001" class="method-signature">
+
+          <span class="method-name">os</span><span class="method-args">()</span>
+
+          </a>
+
+        </div>
+
+        <div class="method-description">
+
+          <p>
+Returns what operating system is running. Valid return values are :linux,
+:solaris, :bsd, :darwin, :windows and :unknown
+</p>
+
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000001-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000001-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/systeminformation.rb, line 6</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">os</span>
+    <span class="ruby-constant">OS</span><span class="ruby-operator">::</span><span class="ruby-identifier">os</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+
+          <a href="#M000006" class="method-signature">
+
+          <span class="method-name">users</span><span class="method-args">()</span>
+
+          </a>
+
+        </div>
+
+        <div class="method-description">
+
+          <p>
+Returns the number of currently logged in users as an integer
+</p>
+
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000006-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/systeminformation.rb, line 92</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">users</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">OS</span><span class="ruby-operator">::</span><span class="ruby-identifier">unix?</span>
+      <span class="ruby-constant">Unix</span><span class="ruby-operator">::</span><span class="ruby-constant">Users</span>.<span class="ruby-identifier">loggedin</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+
+
+  </div>
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
