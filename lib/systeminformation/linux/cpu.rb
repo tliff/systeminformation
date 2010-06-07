@@ -1,3 +1,4 @@
+require 'pp'
 module SystemInformation
   module Linux
     module CPU
@@ -5,19 +6,15 @@ module SystemInformation
         @prev_data = read_data
       end
       
-      def self.get_data
-        c = CPU.new
-        sleep 1
-        c.get_data
-      end
-      
       def get_data
         new_data = read_data
         returnhash = {}
         new_data.keys.each do |key|
           difference = @prev_data[key].zip(new_data[key]).map{|i| i[1].to_f - i[0].to_f}
+          difference
           sum = difference.inject{|a,b| a+b}
-          difference.map!{|i| i/sum}
+
+          difference.map!{|i| i/sum}.map!{|i| i.nan? ? 0 : i}
           returnhash[key] = {
             :user => difference[0],
             :nice => difference[1],
@@ -38,7 +35,7 @@ module SystemInformation
         data = {}
         File.open('/proc/stat','r') do |f|
           f.readlines.select{|l| l =~ /^(cpu\d*) /}.each do |l|
-            cpu, rest = l.split
+            cpu, *rest = l.split
             data[cpu] = rest
           end
         end
