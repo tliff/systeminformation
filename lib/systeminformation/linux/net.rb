@@ -1,17 +1,20 @@
 module SystemInformation
   module Linux
-    module Net
-      def initialize(args)
-        @prev_data = get_data.call
+    class Net
+      def initialize
+        @prev_data = get_data
+	@prev_time = Time.now
       end
       
       def throughput
-        new_data = get_data.call
+        new_data = get_data
         difference ={}
+	delta = Time.now - @prev_time
         @prev_data.keys.each{|k|
           difference[k] = @prev_data[k].zip(new_data[k]).map{|i| (i[1].to_f - i[0].to_f)/delta}
         }
         @prev_data = new_data
+	@prev_time = Time.now
         result={}
         difference.each{|k,body|
           result[k] = {:rbytes => body[0], :rpackets => body[1], :sbytes => body[2], :spackets => body[3]}

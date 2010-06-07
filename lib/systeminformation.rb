@@ -1,46 +1,51 @@
-os = [:unix, :linux]
-os.each do |o|
-  if SystemInformation::OS::os == o
-    Dir.glob(File.dirname(__FILE__) + "/#{o.to_s}/*.rb") do |i| 
-      require i 
-    end    
-  end
-end
-
+require 'lib/systeminformation/os.rb'
 module SystemInformation
-  def os
+  def self.os
     OS::os
   end
   
-  def cpu
+  def self.cpu
     if OS::linux?
       @@cpu ||= Linux::CPU.new
       @@cpu.utilization
     end    
   end
   
-  def load
+  def self.load
     if OS::linux?
-      Linux::Memory.usage
+      Linux::Load.load
     end    
   end
   
-  def net
+  def self.net
     if OS::linux?
-      Linux::Net.throughput
+      @@net ||= Linux::Net.new
+      @@net.throughput
     end    
   end
   
-  def memory
+  def self.memory
     if OS::linux?
       Linux::Memory.usage
     end
   end
   
-  def users
+  def self.users
     if OS::unix?
       Unix::Users.loggedin
     end
   end
   
 end
+
+os = [:unix, :linux]
+os.each do |o|
+  if SystemInformation::OS::os == o
+    puts (File.dirname(__FILE__) + "/systeminformation/#{o.to_s}/*.rb")
+    Dir.glob(File.dirname(__FILE__) + "/systeminformation/#{o.to_s}/*.rb") do |i| 
+      puts "loading #{i}"
+      require i 
+    end    
+  end
+end
+

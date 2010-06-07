@@ -1,6 +1,6 @@
 module SystemInformation
   module Linux
-    module CPU
+    class CPU
       def initialize
         @prev_data = read_data
       end
