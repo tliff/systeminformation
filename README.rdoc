@@ -6,6 +6,9 @@ This gem provides information on the system it is running on.
 == Usage
 See SystemInformation.
 
+== Limitations
+At the moment only implementations for Linux exits. Implementations for other operating system are appreciated.
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
