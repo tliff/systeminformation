@@ -1,4 +1,4 @@
-require 'lib/systeminformation/os.rb'
+require 'systeminformation/os.rb'
 
 module SystemInformation
   #Returns what operating system is running.
